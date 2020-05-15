@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	// "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
+const serviceName string = "Users"
+const serviceVersion string = "0.0.1"
 const defaultPort string = ":10000"
 
 type User struct {
@@ -47,15 +49,13 @@ func getAllUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleRequests() {
-	// myRouter := mux.NewRouter().StrictSlash(true)
-    // myRouter.HandleFunc("/health", healthCheck)
-	// myRouter.HandleFunc("/users", getAllUsers)
-	
-	http.HandleFunc("/health", healthCheck)
-	http.HandleFunc("/users", getAllUsers)
-	log.Fatal(http.ListenAndServe(defaultPort, nil))
+	router := mux.NewRouter().StrictSlash(true)
+    router.HandleFunc("/health", healthCheck)
+	router.HandleFunc("/users", getAllUsers)
+	log.Fatal(http.ListenAndServe(defaultPort, router))
 }
 
 func main() {
+	fmt.Printf("%s API v%s \n", serviceName, serviceVersion)
 	handleRequests()
 }
