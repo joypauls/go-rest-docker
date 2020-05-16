@@ -6,28 +6,16 @@ import (
 	"log"
 	"net/http"
 	"github.com/gorilla/mux"
+
+	"github.com/joypauls/go-rest-docker/mockdb"
 )
 
 const serviceName string = "Users"
 const serviceVersion string = "0.0.1"
 const defaultPort string = ":10000"
 
-type User struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
-
-func generateUsers() []User {
-	var users = []User{
-		User{ID: "123456789", Name: "Beatrice", Email: "beatrice@gmail.com"},
-		User{ID: "987654321", Name: "Amy", Email: "amy@amy.net"},
-	}
-	return users
-}
-
 // simulating a db with a slice
-var users []User = generateUsers()
+var users []mockdb.User = mockdb.FetchAllUsers()
 
 type Health struct {
 	Status string `json:"status"`
